@@ -14,6 +14,7 @@ class Bert(nn.Module):
     def __init__(self, opt):
         super(Bert, self).__init__()
         print('Loading BERT model...')
+        self.opt = opt
         self.BERT_MAX_LEN = 512
         self.linear_combine = 'BERT_LINEAR_COMBINE' in opt
         
@@ -33,7 +34,8 @@ class Bert(nn.Module):
             #self.bert_model = BertModel.from_pretrained('bert-base-cased')        
             self.bert_dim = 768
             self.bert_layer = 12
-        self.bert_model.cuda()
+        if opt.get('cuda'):
+            self.bert_model.cuda()
         self.bert_model.eval()
 
         print('Finished loading')
@@ -113,7 +115,8 @@ class Bert(nn.Module):
         outputs = []
         for i in range(self.bert_layer):
             now = output[:, :, (i * self.bert_dim) : ((i + 1) * self.bert_dim)]
-            now = now.cuda()
+            if self.opt.get('cuda'):
+                now = now.cuda()
             outputs.append(now)
 
         return outputs

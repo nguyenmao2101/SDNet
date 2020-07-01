@@ -24,7 +24,8 @@ from Utils.Constants import *
 from torch.autograd import Variable
 
 POS = {w: i for i, w in enumerate([''] + list(nlp.tagger.labels))}
-ENT = {w: i for i, w in enumerate([''] + nlp.entity.move_names)}
+# ENT = {w: i for i, w in enumerate([''] + nlp.entity.move_names)}
+ENT = {'': 0}
 
 def build_embedding(embed_file, targ_vocab, wv_dim):
     vocab_size = len(targ_vocab)
@@ -194,7 +195,10 @@ class BatchGen:
             x = torch.LongTensor(1, x_len).fill_(0)
             x_char = torch.LongTensor(1, x_len, self.char_max_len).fill_(0)
             if 'BERT' in self.opt:
+                # try:
                 x_bert, x_bert_offsets = self.bertify(datum['annotated_context']['word'])
+                # except:
+                #     print(datum['annotated_context']['word'])
                 x_bert_mask = torch.LongTensor(1, len(x_bert)).fill_(1)
                 x_bert = torch.tensor([x_bert], dtype = torch.long)
                 x_bert_offsets = torch.tensor([x_bert_offsets], dtype = torch.long)

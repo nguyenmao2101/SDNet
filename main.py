@@ -19,7 +19,8 @@ command = cmdline_args.command
 conf_file = cmdline_args.conf_file
 conf_args = Arguments(conf_file)
 opt = conf_args.readArguments()
-opt['cuda'] = torch.cuda.is_available()
+# opt['cuda'] = torch.cuda.is_available()
+opt['cuda'] = False
 opt['confFile'] = conf_file
 opt['datadir'] = os.path.dirname(conf_file)  # conf_file specifies where the data folder is
 

@@ -10,11 +10,13 @@ import torch.nn.functional as F
 import unicodedata
 import sys
 from torch.autograd import Variable
-nlp = spacy.load('en', parser = False)
+
+# import underthesea
+nlp = spacy.load('vi_spacy_model', parser = False)
 
 # normalize sentence
 def normalize_text(text):
-    return unicodedata.normalize('NFD', text)
+    return unicodedata.normalize('NFC', text)
  
 def space_extend( matchobj):
     return ' ' + matchobj.group(0) + ' '

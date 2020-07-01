@@ -169,7 +169,8 @@ class CoQAPreprocess():
             meta_file_name = os.path.join(self.spacyDir, dataset_label + '_meta.msgpack')
             print('Saving meta information to', meta_file_name)
             with open(meta_file_name, 'wb') as f:
-                msgpack.dump(meta, f, encoding='utf8')
+                # msgpack.dump(meta, f, encoding='utf8')
+                msgpack.dump(meta, f)
 
         dataset['data'] = data
 
@@ -177,7 +178,7 @@ class CoQAPreprocess():
             return dataset
 
         with open(output_file_name, 'w') as output_file:
-            json.dump(dataset, output_file, sort_keys=True, indent=4)
+            json.dump(dataset, output_file, ensure_ascii=False, sort_keys=True, indent=4)
         
     '''
      Return train_vocab embedding
@@ -186,7 +187,8 @@ class CoQAPreprocess():
         print('Load train_meta.msgpack...')
         meta_file_name = os.path.join(self.spacyDir, 'train_meta.msgpack')
         with open(meta_file_name, 'rb') as f:
-            meta = msgpack.load(f, encoding='utf8')
+            # meta = msgpack.load(f, encoding='utf8')
+            meta = msgpack.load(f, raw=False)
         embedding = torch.Tensor(meta['embedding'])
         self.opt['vocab_size'] = embedding.size(0)
         self.opt['vocab_dim'] = embedding.size(1)
@@ -292,6 +294,7 @@ class CoQAPreprocess():
         """Lower text and remove punctuation, storys and extra whitespace."""
 
         def remove_articles(text):
+            return text
             regex = re.compile(r'\b(a|an|the)\b', re.UNICODE)
             return re.sub(regex, ' ', text)
 
