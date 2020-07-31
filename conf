@@ -9,13 +9,13 @@ my_dropout_p	0.3
 VARIATIONAL_DROPOUT
 
 BERT
-BERT_LARGE
+BERT_BASE
 dropout_emb	0.4
 
 LOCK_BERT
 BERT_LINEAR_COMBINE
-BERT_tokenizer_file     bert-base-cased/bert-base-cased-vocab.txt
-BERT_model_file bert-base-cased/
+BERT_tokenizer_file     bert-base-uncased/bert-base-uncased-vocab.txt
+BERT_model_file bert-base-uncased/
 BERT_large_tokenizer_file       bert-large-uncased/bert-large-uncased-vocab.txt
 BERT_large_model_file   bert-large-uncased/
 
