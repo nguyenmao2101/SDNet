@@ -180,6 +180,8 @@ class SDNetTrainer(BaseTrainer):
                 targets.append(ground_truth[i][0] * context_len + ground_truth[i][1])
 
         targets = torch.LongTensor(np.array(targets))
+        print(targets.size())
+        print(scores.size())
         if self.use_cuda:
             targets = targets.cuda()
         loss = self.loss_func(scores, targets)
