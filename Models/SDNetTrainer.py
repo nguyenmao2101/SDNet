@@ -170,18 +170,19 @@ class SDNetTrainer(BaseTrainer):
         targets = []
         span_idx = int(context_len * context_len)
         for i in range(ground_truth.shape[0]):
-            # if ground_truth[i][0] == -1 and ground_truth[i][1] == -1: # no answer
-            #     targets.append(span_idx + 2)
-            # if ground_truth[i][0] == 0 and ground_truth[i][1] == -1: # no
-            #     targets.append(span_idx)
-            # if ground_truth[i][0] == -1 and ground_truth[i][1] == 0: # yes
-            #     targets.append(span_idx + 1)
-            # if ground_truth[i][0] != -1 and ground_truth[i][1] != -1: # normal span
-            targets.append(ground_truth[i][0] * context_len + ground_truth[i][1])
+            if ground_truth[i][0] == -1 and ground_truth[i][1] == -1: # no answer
+                targets.append(span_idx + 2)
+            if ground_truth[i][0] == 0 and ground_truth[i][1] == -1: # no
+                targets.append(span_idx)
+            if ground_truth[i][0] == -1 and ground_truth[i][1] == 0: # yes
+                targets.append(span_idx + 1)
+            if ground_truth[i][0] != -1 and ground_truth[i][1] != -1: # normal span
+                targets.append(ground_truth[i][0] * context_len + ground_truth[i][1])
 
         targets = torch.LongTensor(np.array(targets))
-        print(targets.size())
-        print(scores.size())
+        if targets.size(0) != scores.size(0):
+            print(targets.size())
+            print(scores.size())
         if self.use_cuda:
             targets = targets.cuda()
         loss = self.loss_func(scores, targets)
