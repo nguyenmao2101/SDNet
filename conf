@@ -4,7 +4,7 @@ CoQA_DEV_FILE	data/coqa-dev-v1.0.json
 PREV_ANS	2
 PREV_QUES	2
 
-CUDA
+cuda 1
 
 DROPOUT	0.3
 my_dropout_p	0.3
@@ -16,7 +16,7 @@ dropout_emb	0.4
 
 LOCK_BERT
 BERT_LINEAR_COMBINE
-BERT_tokenizer_file     bert-base-uncased/bert-base-uncased-vocab.txt
+BERT_tokenizer_file     bert-base-uncased/bert-base-multilingual-vocab.txt
 BERT_model_file bert-base-uncased/
 BERT_large_tokenizer_file       bert-large-uncased/bert-large-uncased-vocab.txt
 BERT_large_model_file   bert-large-uncased/
