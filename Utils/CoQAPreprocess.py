@@ -279,14 +279,17 @@ class CoQAPreprocess():
     def get_raw_context_offsets(self, words, raw_text):
         raw_context_offsets = []
         p = 0
-        for token in words:            
+        err = 0
+        for token in words:
+            norm_token = token.replace("_", " ")           
             while p < len(raw_text) and re.match('\s', raw_text[p]):
                 p += 1
-            if raw_text[p:p + len(token)] != token:
-                print('something is wrong! token', token, 'raw_text:', raw_text)
-
+            if raw_text[p:p + len(token)] != norm_token or raw_text[p:p+len(token)] != token:
+                err += 1
+                # print('something is wrong! token', token, 'raw_text:', raw_text)
             raw_context_offsets.append((p, p + len(token)))
             p += len(token)
+        print("Some mistake in tokenize: {} err".format(err))
 
         return raw_context_offsets
 
