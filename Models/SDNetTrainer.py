@@ -86,7 +86,7 @@ class SDNetTrainer(BaseTrainer):
             train_batches = BatchGen(self.opt, train_data['data'], self.use_cuda, self.vocab, self.char_vocab)
             dev_batches = BatchGen(self.opt, dev_data['data'], self.use_cuda, self.vocab, self.char_vocab, evaluation=True)
             for i, batch in enumerate(train_batches):
-                if i == len(train_batches) - 1 or (epoch == 0 and i == 0 and ('RESUME' in self.opt)) or (i > 0 and i % 5 == 0):
+                if i == len(train_batches) - 1 or (epoch == 0 and i == 0 and ('RESUME' in self.opt)) or (i > 0 and i % 1500 == 0):
                     print('Saving folder is', self.saveFolder)
                     print('Evaluating on dev set...')
                     predictions = []
@@ -108,7 +108,7 @@ class SDNetTrainer(BaseTrainer):
                         best_f1_score = f1
                         pred_json_file = os.path.join(self.saveFolder, 'prediction.json')
                         with open(pred_json_file, 'w') as output_file:
-                            json.dump(final_json, output_file)
+                            json.dump(final_json, output_file, ensure_ascii=False)
                         score_per_instance = []    
                         for instance, s in zip(final_json, all_f1s):
                             score_per_instance.append({
