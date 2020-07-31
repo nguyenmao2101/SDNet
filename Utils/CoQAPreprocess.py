@@ -289,7 +289,7 @@ class CoQAPreprocess():
                 # print('something is wrong! token', token, 'raw_text:', raw_text)
             raw_context_offsets.append((p, p + len(token)))
             p += len(token)
-        print("Some mistake in tokenize: {} err".format(err))
+        # print("Some mistake in tokenize: {} err".format(err))
 
         return raw_context_offsets
 
