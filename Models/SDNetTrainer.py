@@ -106,12 +106,10 @@ class SDNetTrainer(BaseTrainer):
 
                     l_model_file = os.path.join(self.saveFolder, 'epoch_{}_model.pt'.format(epoch))
                     self.save_for_predict(l_model_file, epoch)
-                    print('Checkpoint {} saved'.format(epoch))
 
                     if f1 > best_f1_score:
                         model_file = os.path.join(self.saveFolder, 'best_model.pt')
                         self.save_for_predict(model_file, epoch)
-                        print('Updated best model')
                         best_f1_score = f1
                         pred_json_file = os.path.join(self.saveFolder, 'prediction.json')
                         with open(pred_json_file, 'w') as output_file:
