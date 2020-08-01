@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+flask = "*"
 
 [packages]
 msgpack = "*"
@@ -13,6 +14,7 @@ pandas = "*"
 underthesea = "*"
 spacy = "~=2.1.0"
 torch = "~=0.4.1"
+fasttext = "*"
 
 [requires]
 python_version = "3.6"

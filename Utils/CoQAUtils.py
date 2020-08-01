@@ -22,6 +22,8 @@ from Models.Bert.tokenization import BertTokenizer
 from Utils.GeneralUtils import normalize_text, nlp
 from Utils.Constants import *
 from torch.autograd import Variable
+import fasttext
+import fasttext.util
 
 POS = {w: i for i, w in enumerate([''] + list(nlp.tagger.labels))}
 # ENT = {w: i for i, w in enumerate([''] + nlp.entity.move_names)}
@@ -33,16 +35,19 @@ def build_embedding(embed_file, targ_vocab, wv_dim):
     emb[0] = 0 # <PAD> should be all 0 (using broadcast)
 
     w2id = {w: i for i, w in enumerate(targ_vocab)}
-    lineCnt = 0
-    with open(embed_file, encoding="utf8") as f:
-        for line in f:
-            lineCnt = lineCnt + 1
-            if lineCnt % 100000 == 0:
-                print('.', end = '',flush=True)
-            elems = line.split()
-            token = normalize_text(''.join(elems[0:-wv_dim]))
-            if token in w2id:
-                emb[w2id[token]] = [float(v) for v in elems[-wv_dim:]]
+    ft = fasttext.load_model('fasttext/wiki.vi.bin')
+    for token in w2id:
+        emb[w2id[token]] = ft.get_word_vector(token) 
+    # lineCnt = 0
+    # with open(embed_file, encoding="utf8") as f:
+    #     for line in f:
+    #         lineCnt = lineCnt + 1
+    #         if lineCnt % 100000 == 0:
+    #             print('.', end = '',flush=True)
+    #         elems = line.split()
+    #         token = normalize_text(''.join(elems[0:-wv_dim]))
+    #         if token in w2id:
+    #             emb[w2id[token]] = [float(v) for v in elems[-wv_dim:]]
     return emb
 
 def token2id_sent(sent, w2id, unk_id=None, to_lower=False):
