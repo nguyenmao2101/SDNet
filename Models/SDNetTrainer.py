@@ -85,8 +85,9 @@ class SDNetTrainer(BaseTrainer):
             startTime = datetime.now()
             train_batches = BatchGen(self.opt, train_data['data'], self.use_cuda, self.vocab, self.char_vocab)
             dev_batches = BatchGen(self.opt, dev_data['data'], self.use_cuda, self.vocab, self.char_vocab, evaluation=True)
+            print("{} loop round".format(len(train_batches)))
             for i, batch in enumerate(train_batches):
-                if i == len(train_batches) - 1 or (epoch == 0 and i == 0 and ('RESUME' in self.opt)) or (i > 0 and i % 2000 == 0):
+                if i == len(train_batches) - 1 or (epoch == 0 and i == 0 and ('RESUME' in self.opt)):
                     print('Saving folder is', self.saveFolder)
                     print('Evaluating on dev set...')
                     predictions = []
@@ -101,10 +102,16 @@ class SDNetTrainer(BaseTrainer):
                         dev_answer.extend(dev_batch[-3]) # answer_str
                     result, all_f1s = score(predictions, dev_answer, final_json)
                     f1 = result['f1']
+                    
+
+                    l_model_file = os.path.join(self.saveFolder, 'epoch_{}_model.pt'.format(epoch))
+                    self.save_for_predict(l_model_file, epoch)
+                    print('Checkpoint {} saved'.format(epoch))
 
                     if f1 > best_f1_score:
                         model_file = os.path.join(self.saveFolder, 'best_model.pt')
                         self.save_for_predict(model_file, epoch)
+                        print('Updated best model')
                         best_f1_score = f1
                         pred_json_file = os.path.join(self.saveFolder, 'prediction.json')
                         with open(pred_json_file, 'w') as output_file:
@@ -128,8 +135,7 @@ class SDNetTrainer(BaseTrainer):
                     self.log('updates[{0:6}] train loss[{1:.5f}] remaining[{2}]'.format(
                         self.updates, self.train_loss.avg,
                         str((datetime.now() - startTime) / (i + 1) * (len(train_batches) - i - 1)).split('.')[0]))
-            l_model_file = os.path.join(self.saveFolder, 'epoch_{}_model.pt'.format(epoch))
-            self.save_for_predict(l_model_file, epoch)
+
             print("PROGRESS: {0:.2f}%".format(100.0 * (epoch + 1) / numEpochs))
             print('Config file is at ' + self.opt['confFile'])
 
