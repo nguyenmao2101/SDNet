@@ -141,7 +141,7 @@ class SDNetTrainer(BaseTrainer):
         self.train_loss = AverageMeter()
         self.network = SDNet(self.opt, vocab_embedding)
         if self.use_cuda:
-            self.log('Putting model into GPU')
+            # self.log('Putting model into GPU')
             self.network.cuda()
 
         parameters = [p for p in self.network.parameters() if p.requires_grad]
