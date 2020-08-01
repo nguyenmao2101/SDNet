@@ -182,7 +182,7 @@ class SDNetTrainer(BaseTrainer):
 
         targets = torch.LongTensor(np.array(targets))
         if targets.size(0) != scores.size(0):
-            print(batch.size())
+            print(batch[0].size())
             print(targets.size())
             print(scores.size())
         if self.use_cuda:
