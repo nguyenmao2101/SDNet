@@ -1,6 +1,8 @@
 CoQA_TRAIN_FILE	data/coqa-train-v1.0.json
 CoQA_DEV_FILE	data/coqa-dev-v1.0.json
 
+cuda 0
+
 PREV_ANS	2
 PREV_QUES	2
 
