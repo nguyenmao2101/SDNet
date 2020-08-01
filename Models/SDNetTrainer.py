@@ -259,7 +259,11 @@ class SDNetTrainer(BaseTrainer):
 
     def load_model(self, model_path):
         print('Loading model from', model_path)
-        checkpoint = torch.load(model_path)
+        if self.opt["cuda"]:
+            checkpoint = torch.load(model_path, map_location='cuda:0')
+        else:
+            checkpoint = torch.load(model_path, map_location='cpu')
+
         state_dict = checkpoint['state_dict']
         new_state = set(self.network.state_dict().keys())
         for k in list(state_dict['network'].keys()):
