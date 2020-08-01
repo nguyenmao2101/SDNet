@@ -3,6 +3,9 @@ CoQA_DEV_FILE	data/coqa-dev-v1.0.json
 
 cuda
 
+RESUME
+MODEL_PATH conf~/run_5/best_model.pt
+
 PREV_ANS	2
 PREV_QUES	2
 
