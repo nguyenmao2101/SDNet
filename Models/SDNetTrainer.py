@@ -86,7 +86,7 @@ class SDNetTrainer(BaseTrainer):
             train_batches = BatchGen(self.opt, train_data['data'], self.use_cuda, self.vocab, self.char_vocab)
             dev_batches = BatchGen(self.opt, dev_data['data'], self.use_cuda, self.vocab, self.char_vocab, evaluation=True)
             for i, batch in enumerate(train_batches):
-                if i == len(train_batches) - 1 or (epoch == 0 and i == 0 and ('RESUME' in self.opt)) or (i > 0 and i % 1000 == 0):
+                if i == len(train_batches) - 1 or (epoch == 0 and i == 0 and ('RESUME' in self.opt)) or (i > 0 and i % 2000 == 0):
                     print('Saving folder is', self.saveFolder)
                     print('Evaluating on dev set...')
                     predictions = []
@@ -128,7 +128,8 @@ class SDNetTrainer(BaseTrainer):
                     self.log('updates[{0:6}] train loss[{1:.5f}] remaining[{2}]'.format(
                         self.updates, self.train_loss.avg,
                         str((datetime.now() - startTime) / (i + 1) * (len(train_batches) - i - 1)).split('.')[0]))
-
+            l_model_file = os.path.join(self.saveFolder, 'epoch_{}_model.pt'.format(epoch))
+            self.save_for_predict(l_model_file, epoch)
             print("PROGRESS: {0:.2f}%".format(100.0 * (epoch + 1) / numEpochs))
             print('Config file is at ' + self.opt['confFile'])
 
