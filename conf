@@ -3,8 +3,6 @@ CoQA_DEV_FILE	data/coqa-dev-v1.0.json
 
 cuda
 
-RESUME
-MODEL_PATH conf~/run_1/best_model.pt
 
 PREV_ANS	2
 PREV_QUES	2
@@ -31,7 +29,7 @@ CONTEXT_RNN_HIDDEN_DIM	300
 MAX_WORD_PER_SENTENCE	30
 INIT_WORD_EMBEDDING_FILE	../glove/glove.840B.300d.txt
 MINI_BATCH	32
-EPOCH	40
+EPOCH	20
 
 QUES_SELF_ATTN
 max_len	15
